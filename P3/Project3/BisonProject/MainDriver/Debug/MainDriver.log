@@ -1,0 +1,7 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (FlexBisonTools.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  lex.yy.cc
+  tiger.tab.cc
+C:\Users\camer\Documents\GitHub\School-2020-F\Compiler\P3\Project3\BisonProject\MainDriver\tiger.tab.cc(710,5): warning C4065: switch statement contains 'default' but no 'case' labels
+C:\Users\camer\Documents\GitHub\School-2020-F\Compiler\P3\Project3\BisonProject\MainDriver\tiger.tab.cc(1076,5): warning C4065: switch statement contains 'default' but no 'case' labels
+C:\Users\camer\Documents\GitHub\School-2020-F\Compiler\P3\Project3\BisonProject\MainDriver\tiger.tab.cc(1378,5): warning C4065: switch statement contains 'default' but no 'case' labels
+  MainDriver.vcxproj -> C:\Users\camer\Documents\GitHub\School-2020-F\Compiler\P3\Project3\BisonProject\Debug\MainDriver.exe

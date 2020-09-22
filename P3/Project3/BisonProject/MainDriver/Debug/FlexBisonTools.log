@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (MainDriver.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  tiger.yy:29.3-5: warning: symbol LET redeclared
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(234,5): warning MSB8065: Custom build for item "tiger.yy" succeeded, but specified output "c:\users\camer\documents\github\school-2020-f\compiler\p3\project3\bisonproject\maindriver\tiger.tab.cc tiger.tab.hh" has not been created. This may cause incremental build to work incorrectly.

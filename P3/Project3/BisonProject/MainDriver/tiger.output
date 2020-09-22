@@ -1,0 +1,152 @@
+Terminals unused in grammar
+
+   STRING
+   INT
+   COMMA
+   COLON
+   SEMICOLON
+   LPAREN
+   RPAREN
+   LBRACK
+   RBRACK
+   LBRACE
+   RBRACE
+   DOT
+   ARRAY
+   IF
+   THEN
+   ELSE
+   WHILE
+   FOR
+   TO
+   DO
+   LET
+   IN
+   END
+   OF
+   ASSIGN
+   BREAK
+   NIL
+   FUNCTION
+   VAR
+   TYPE
+   OR
+   AND
+   LE
+   GE
+   LT
+   GT
+   NEQ
+   EQ
+   MINUS
+   PLUS
+   DIVIDE
+   TIMES
+   UMINUS
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: exp
+
+    2 exp: ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 2
+STRING (259)
+INT (260)
+COMMA (261)
+COLON (262)
+SEMICOLON (263)
+LPAREN (264)
+RPAREN (265)
+LBRACK (266)
+RBRACK (267)
+LBRACE (268)
+RBRACE (269)
+DOT (270)
+ARRAY (271)
+IF (272)
+THEN (273)
+ELSE (274)
+WHILE (275)
+FOR (276)
+TO (277)
+DO (278)
+LET (279)
+IN (280)
+END (281)
+OF (282)
+ASSIGN (283)
+BREAK (284)
+NIL (285)
+FUNCTION (286)
+VAR (287)
+TYPE (288)
+OR (289)
+AND (290)
+LE (291)
+GE (292)
+LT (293)
+GT (294)
+NEQ (295)
+EQ (296)
+MINUS (297)
+PLUS (298)
+DIVIDE (299)
+TIMES (300)
+UMINUS (301)
+
+
+Nonterminals, with rules where they appear
+
+$accept (47)
+    on left: 0
+program (48)
+    on left: 1, on right: 0
+exp (49)
+    on left: 2, on right: 1
+
+
+state 0
+
+    0 $accept: . program $end
+
+    ID  shift, and go to state 1
+
+    program  go to state 2
+    exp      go to state 3
+
+
+state 1
+
+    2 exp: ID .
+
+    $default  reduce using rule 2 (exp)
+
+
+state 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+state 3
+
+    1 program: exp .
+
+    $default  reduce using rule 1 (program)
+
+
+state 4
+
+    0 $accept: program $end .
+
+    $default  accept

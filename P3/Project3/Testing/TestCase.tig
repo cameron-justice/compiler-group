@@ -1,0 +1,26 @@
+/* This is the test case file. Here is the requirement:
+    1. The test case file must be a valid Tiger program. No syntax errors allowed.
+    2. The table below has two columns. The first column specifies Tiger construct that must be covered, and
+       the second column gives the line # of the statement that is used to test the construct. Please fill the second
+       column after you have designed all test cases successfully.
+       
+        Tiger Construct to be covered                         Line # of the statement
+        array type declaration
+        variable declaration
+        lvalue 
+        logic comparison expression
+        arithmetic expression
+        assignment expression
+        if-then-else expression 
+        while expression
+        for loop expression 
+        let expression
+        a sequence of expressions
+        array creation
+        Negation
+        operator precedence levels
+ */
+
+ Put your Tiger program here
+ 
+

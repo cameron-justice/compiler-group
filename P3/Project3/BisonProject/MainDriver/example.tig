@@ -1,0 +1,23 @@
+/* My example Tiger program, presented in class. */
+let
+  type dd=int
+  type arr = array of string
+  var a := arr[100] of "hello\n"
+in
+  1>2>=3;	
+  4+6+;
+  4--5;
+  a=6+b[6]+5;
+  a = -5;
+  while (1) do 3>5;
+  b[0] := if 1>2 & 1/0 then a[21] else a[22];
+  b[0] := b[0];
+  a1[1];
+  a[a[1]];
+  a[[1]];
+  a[1]b[1];
+  a[1]=b[2]+c[3]; 
+  a[1][1];
+  print(b[0])
+end
+

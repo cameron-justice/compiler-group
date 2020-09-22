@@ -1,0 +1,19 @@
+example.tig:7.6: syntax error
+  1>2>=3;
+     ^
+
+example.tig:8.7: syntax error
+  4+6+;
+      ^
+
+example.tig:17.5: syntax error
+  a[[1]];
+    ^
+
+example.tig:18.7: syntax error
+  a[1]b[1];
+      ^
+
+Parsing successful!
+
+Press any key to continue . . .
