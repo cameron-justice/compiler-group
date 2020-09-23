@@ -21,12 +21,13 @@ void yyerror(char *s);	//called by the parser whenever an eror occurs
 /* TOKENs and their associated data type */
 %token <sval> ID STRING
 %token <ival> INT
+%type <sval> exp expseq explist lvalue
 
 %token 
   COMMA COLON SEMICOLON LPAREN RPAREN LBRACK RBRACK 
   LBRACE RBRACE DOT 
-  ARRAY IF THEN ELSE WHILE FOR TO DO LET IN END OF 
-  LET ASSIGN
+  ARRAY IF THEN ELSE WHILE FOR TO DO LET IN END OF
+  ASSIGN
   BREAK NIL
   FUNCTION VAR TYPE 
 
@@ -50,9 +51,49 @@ void yyerror(char *s);	//called by the parser whenever an eror occurs
 
 program	:	exp
 
-exp		:	lvalue 
-		|	LET decs IN explist END 
+expseq  :	exp
+		|	expseq SEMICOLON exp			{ $1; $3				}
 
+explist	:	exp								{ $1					}		
+		|	explist COMMA exp				{ $1 , $3				}	
+
+lvalue	:	ID								{ $1;					}
+		|	lvalue DOT ID					{ $1 . $3				}
+		|	lvalue LBRACK exp RBRACK		{ $1[$3]				}
+		
+decs	:	dec
+		|	decs dec
+
+dec		:	vardec
+		|	fundec
+
+vardec	:	VAR ID ASSIGN exp				{ }
+fundec	:	FUNCTION ID LPAREN RPAREN
+
+exp		:	INT								{ $$ = $1;				}	
+		|	STRING							{ $$ = $1;				}
+		|	NIL								{ }	
+		|	lvalue							{}
+		|	exp AND exp						{ $$ = $1 && $3			}
+		|	exp OR exp						{ $$ = $1 || $3			}
+		|	exp EQ exp						{ $$ = $1 == $3			}
+		|	exp NEQ exp						{ $$ = $1 != $3			}
+		|	exp GT exp						{ $$ = $1 >  $3			}
+		|	exp LT exp						{ $$ = $1 <  $3			}
+		|	exp GE exp						{ $$ = $1 >= $3			}
+		|	exp LE exp						{ $$ = $1 <= $3			}
+		|	UMINUS exp 						{ $$ = -$2;				}
+		|	lvalue ASSIGN exp				{ $1 = $3				}
+		|	ID LPAREN RPAREN				{ $1()					}
+		|	ID LPAREN explist RPAREN		{ $1( $3 )				}
+		|	LPAREN RPAREN					{ }
+		|	LPAREN expseq RPAREN			{ ( $2 )				}			
+		|	IF exp THEN exp					{ if($2){$4}			}
+		|	IF exp THEN exp ELSE exp		{ if($2){$4}else{$6}	}
+		|	WHILE exp DO exp				{ while($2){$4}			}
+		|	FOR ID ASSIGN exp TO exp DO exp { for($2 = $4; $6){$8}	}
+		|	BREAK							{ break; }
+		|	LET decs IN explist END			{ }
 
 %%
 extern yyFlexLexer	lexer;
