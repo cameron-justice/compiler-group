@@ -1,0 +1,24 @@
+Report submited at 2020-09-23 4:30 
+
+Role
+    Assignment Leader: Justin Wade  
+    Programmer       : Cameron Justice  
+    Tester           : Hunter McGee
+  
+Progress 
+    Cameron Justice
+        Programmer for this project. 
+    Hunter McGee
+        Tester for this project.
+
+Work to be done
+    Cameron Justice
+        Alpha version section expected to take roughly 4-6 hours to complete.
+    Hunter McGee
+        The testing portion and finalization is estimated to take roughly 1-2 hours.
+
+Meet deadline 
+    Cameron Justice
+        Yes
+    Hunter McGee
+        Yes

@@ -1,0 +1,24 @@
+Report submited at 2012-09-18 4:30 [Replace the date and time by the real information]
+
+Role
+    Assignment Leader: Justin Wade  
+    Programmer       : Cameron Justice  
+    Tester           : Hunter McGee
+  
+Progress 
+    Cameron Justice
+        Work done
+    Hunter McGee
+        Work done
+
+Work to be done
+    Cameron Jsutice
+        His/her future work before next deadline
+    Name of a team member
+        His/her future work before next deadline
+
+Meet deadline 
+    Cameron Justice
+        Yes
+    Hunter McGee
+        Yes
