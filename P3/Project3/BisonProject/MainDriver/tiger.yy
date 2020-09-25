@@ -21,7 +21,6 @@ void yyerror(char *s);	//called by the parser whenever an eror occurs
 /* TOKENs and their associated data type */
 %token <sval> ID STRING
 %token <ival> INT
-%type <ival> exp expseq explist lvalue
 
 %token 
   COMMA COLON SEMICOLON LPAREN RPAREN LBRACK RBRACK 
@@ -44,48 +43,72 @@ void yyerror(char *s);	//called by the parser whenever an eror occurs
 
 program	:	exp
 
-exp		:	INT								{ $$ = $1;						}
-		|	STRING							{ $$ = $1;}						
-		|	NIL								{ $$ = NULL;					}	
-		|	lvalue							{}
-		|	exp AND exp						{ $$ = $1 && $3;				}
-		|	exp OR exp						{ $$ = $1 || $3;				}
-		|	exp EQ exp						{ $$ = $1 == $3;				}
-		|	exp NEQ exp						{ $$ = $1 != $3;				}
-		|	exp GT exp						{ $$ = $1 >  $3;				}
-		|	exp LT exp						{ $$ = $1 <  $3;				}
-		|	exp GE exp						{ $$ = $1 >= $3;				}
-		|	exp LE exp						{ $$ = $1 <= $3;				}
-		|	UMINUS exp 						{ $$ = -$2;						}
-		|	lvalue ASSIGN exp				{ $$ = $1 = $3;					}
-		|	ID LPAREN RPAREN				{ $1();					}
-		|	ID LPAREN explist RPAREN		{ $$ = $1( $3 );				}
-		|	LPAREN expseq RPAREN			{ ( $2 );					}			
-		|	IF exp THEN exp					{ if($2){$$ = $4;}				}
-		|	IF exp THEN exp ELSE exp		{ if($2){$$ = $4;}else{$$ = $6;}		}
-		|	WHILE exp DO exp				{ while($2){$4;};			}
-		|	FOR ID ASSIGN exp TO exp DO exp { for($2 = $4; $6;){$8;}	}
-		|	BREAK							{ break;					}
-		|	LET decs IN explist END			{	}
-		|	LET decs IN END					{	}
+exp		:	INT		
+		|	MINUS INT
+		|	STRING	
+		|	NIL								
+		|	lvalue	
+		|	exp AND exp						
+		|	exp OR exp						
+		|	exp EQ exp						
+		|	exp NEQ exp						
+		|	exp GT exp						
+		|	exp LT exp						
+		|	exp GE exp						
+		|	exp LE exp						
+		|	UMINUS exp
+		|	exp PLUS exp
+		|	exp MINUS exp
+		|	exp TIMES exp
+		|	exp DIVIDE exp
+		|	lvalue ASSIGN exp				
+		|	lvalue LPAREN RPAREN				
+		|	lvalue LPAREN explist RPAREN
+		|	LPAREN RPAREN
+		|	LPAREN expseq RPAREN						
+		|	IF exp THEN exp					
+		|	IF exp THEN exp ELSE exp	
+		|	WHILE exp DO exp				
+		|	FOR lvalue ASSIGN exp TO exp DO exp
+		|	BREAK							
+		|	LET decs IN expseq END	
+		|	LET decs IN END			
+		|	error
 
-expseq  :	exp								{ $$ = $1; }
-		|	expseq SEMICOLON exp			{ $$ = $1; $3				}
+expseq  :	exp								
+		|	expseq SEMICOLON exp			
 
-explist	:	exp								{ $$ = $1;					}		
-		|	explist COMMA exp				{ $$ = $1 , $3;				}	
+explist	:	exp										
+		|	explist COMMA exp					
 
-lvalue	:	ID								{ $1;					}
-		|	lvalue LBRACK exp RBRACK		{ $1[$3];				}
+lvalue	:	ID								
+		|	ID arr_access
+
+arr_access	:	LBRACK exp RBRACK
+			|	LBRACK exp RBRACK arr_access
 		
 decs	:	dec
 		|	decs dec
 
 dec		:	vardec
-		|	fundec
+		|	typedec
 
-vardec	:	VAR ID ASSIGN exp				{ }
-fundec	:	FUNCTION ID LPAREN RPAREN		{}
+vardec	:	VAR lvalue ASSIGN exp
+		|	VAR lvalue COLON type ASSIGN exp
+		|	VAR lvalue ASSIGN type
+
+typedec	:	TYPE lvalue EQ type
+
+type	:	LBRACE RBRACE
+		|	LBRACE typeflds RBRACE
+		|	lvalue OF exp
+		|	ARRAY OF type
+		|	lvalue
+
+typeflds	:	typefld
+			|	typeflds typefld
+
+typefld	:	lvalue COLON lvalue
 
 %%
 extern yyFlexLexer	lexer;
