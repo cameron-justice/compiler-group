@@ -1,4 +1,4 @@
-Report submited at 2012-09-18 4:30 [Replace the date and time by the real information]
+Report submited at 2020-09-28 7:30
 
 Role
     Assignment Leader: Justin Wade  
@@ -7,15 +7,15 @@ Role
   
 Progress 
     Cameron Justice
-        Work done
+        Alpha complete upon fix of reduce/reuse errors and conflicts.
     Hunter McGee
-        Work done
+        Test cases waiting completion.
 
 Work to be done
-    Cameron Jsutice
-        His/her future work before next deadline
-    Name of a team member
-        His/her future work before next deadline
+    Cameron Justice
+        Solve reduce/reuse and conflict errors.
+    Hunter McGee
+        Have tests ready upon completion of alpha version. 
 
 Meet deadline 
     Cameron Justice
