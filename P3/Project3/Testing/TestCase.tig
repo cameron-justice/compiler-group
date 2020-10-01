@@ -1,23 +1,23 @@
 /* This is the test case file.
 
-        Tiger Construct to be covered                         Line # of the statement
-x        array type declaration								28			
-x        variable declaration								31
-x        lvalue 											43
-x        logic comparison expression						40
-x        arithmetic expression								46
-x        assignment expression								43
-x        if-then-else expression 							40-46
-x        while expression									50
-x        for loop expression 								38
-x        let expression										26
-x        a sequence of expressions							37-52
-x        array creation										35
-x        Negation											50
-x        operator precedence levels							43
+		Tiger Construct to be covered                         Line # of the statement
+        array type declaration								28			
+        variable declaration								31
+        lvalue 												43
+        logic comparison expression							40
+        arithmetic expression								46
+        assignment expression								43
+        if-then-else expression 							40-46
+        while expression									50
+        for loop expression 								38
+        let expression										26
+        a sequence of expressions							37-52
+        array creation										35
+        Negation											50
+        operator precedence levels							43
  */
 
-Put your Tiger program here
+
 /* LET EXPRESSION */
 let
 	/* ARRAY TYPE DECLARATION */
@@ -43,7 +43,7 @@ in
 	
 	j := 0
 	/* WHILE LOOP */
-	while j <> size - 1
+	while j <> size - 1 do
 		print(factorialArr[i]);
 		j := j - 1;
 end
