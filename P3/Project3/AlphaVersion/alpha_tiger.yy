@@ -1,7 +1,7 @@
-% Cameron Justice, Hunter McGee, Justin Wade
-% Project 3
-% Due Date - October 5th, 2020
-% Dr. Zhijiang Dong
+/* PROGRAMMER: Cameron Justice		*/
+/* PROGRAM #: Program 3			*/
+/* DUE DATE: Monday, 10/5/20		*/
+/* INSTRUCTOR: Dr. Zhijiang Dong	*/
 
 
 %debug
