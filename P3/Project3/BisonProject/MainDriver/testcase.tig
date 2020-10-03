@@ -1,4 +1,4 @@
-/* Tester: Hunter McGee
+/* This is the test case file.
 
 		Tiger Construct to be covered                         Line # of the statement
         array type declaration								28			
@@ -20,7 +20,7 @@
 
 
 
-/* NORMAL PROGRAM TEST CASE */
+
 
 /* LET EXPRESSION */
 let
