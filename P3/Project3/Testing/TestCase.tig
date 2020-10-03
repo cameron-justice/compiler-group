@@ -1,26 +1,22 @@
-/* Tester: Hunter McGee
+/* This is the test case file.
 
 		Tiger Construct to be covered                         Line # of the statement
         array type declaration								28			
         variable declaration								31
-        lvalue 												44
+        lvalue 												43
         logic comparison expression							40
-        arithmetic expression								47
-        assignment expression								44
-        if-then-else expression 							41-47
+        arithmetic expression								46
+        assignment expression								43
+        if-then-else expression 							40-46
         while expression									50
         for loop expression 								38
         let expression										26
-        a sequence of expressions							38-53
-        array creation										36
-        Negation											32
-        operator precedence levels							44
+        a sequence of expressions							37-52
+        array creation										35
+        Negation											50
+        operator precedence levels							43
  */
 
-
-
-
-/* NORMAL PROGRAM TEST CASE */
 
 /* LET EXPRESSION */
 let
@@ -29,8 +25,7 @@ let
 
 	/* VARIABLE DECLARATION */
 	var size:int := 10
-	var count:int := -1
-	var j:int := 0
+	var count:int := 0
 	
 	/* ARRAY CREATION */
 	var factorialArr := intArr [size] of 0
@@ -41,12 +36,14 @@ in
 		do if i > 0
 		then
 			/* ASSIGNMENT EXPRESSION & OPERATOR PRECEDENCE & LVALUE */
-			factorialArr[i] := (i + 1) * factorialArr[i-1]
+			factorialArr[i] := (i + 1) * factorialArr[i-1];
 		else
 			/* ARITHMETIC EXPRESSION */
-			factorialArr[i] := i + 1 ;
-
+			factorialArr[i] := i + 1;
+	
+	j := 0
 	/* WHILE LOOP */
-	while j <= size - 1 do
-		j := j - 1 
+	while j <> size - 1 do
+		print(factorialArr[i]);
+		j := j - 1;
 end
