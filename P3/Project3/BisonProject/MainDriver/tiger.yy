@@ -1,7 +1,7 @@
-% Cameron Justice, Hunter McGee, Justin Wade
-% Project 3
-% Due Date - October 5th, 2020
-% Dr. Zhijiang Dong
+/* PROGRAMMER: Cameron Justice */
+/* PROGRAM: Project 3 */
+/* DUE: October 5th, 2020 */
+/* INSTRUCTOR: Dr. Zhijiang Dong */
 
 
 %debug
@@ -48,72 +48,62 @@ void yyerror(char *s);	//called by the parser whenever an eror occurs
 
 program	:	exp
 
-exp		:	INT		
-		|	MINUS INT
-		|	STRING	
-		|	NIL								
-		|	lvalue	
-		|	exp AND exp						
-		|	exp OR exp						
-		|	exp EQ exp						
-		|	exp NEQ exp						
-		|	exp GT exp						
-		|	exp LT exp						
-		|	exp GE exp						
-		|	exp LE exp						
-		|	UMINUS exp
-		|	exp PLUS exp
+exp		:	STRING											/* string literal */
+		|	INT												/* integer literal */
+		|	NIL												/* null value */
+		|	lvalue											/* assignable location */
+		|	ARRAY											/* array token */
+		|	MINUS exp										/* negative */
+		|	exp AND exp										/* -- START BINARY OPERATORS */
+		|	exp OR exp
+		|	exp EQ exp
+		|	exp NEQ exp
+		|	exp GT exp
+		|	exp LT exp
+		|	exp GE exp
+		|	exp LE exp										/* -- END BINARY OPERATORS */
+		|	exp PLUS exp									/* -- START MATH OPERATORS */
 		|	exp MINUS exp
 		|	exp TIMES exp
-		|	exp DIVIDE exp
-		|	lvalue ASSIGN exp				
-		|	lvalue LPAREN RPAREN				
-		|	lvalue LPAREN explist RPAREN
-		|	LPAREN RPAREN
-		|	LPAREN expseq RPAREN						
-		|	IF exp THEN exp					
-		|	IF exp THEN exp ELSE exp	
-		|	WHILE exp DO exp				
-		|	FOR lvalue ASSIGN exp TO exp DO exp
-		|	BREAK							
-		|	LET decs IN expseq END	
-		|	LET decs IN END			
-		|	error
+		|	exp DIVIDE exp									/* -- END MATH OPERATORS */
+		|	lvalue ASSIGN exp								/* assignment statement */
+		|	ID LPAREN explist RPAREN						/* function call */
+		|	LPAREN expseq RPAREN							/* expressions in parentheses */
+		|	IF exp THEN exp									/* if */
+		|	IF exp THEN exp ELSE exp						/* if else */
+		|	WHILE exp DO exp								/* while loop */
+		|	FOR ID ASSIGN exp TO exp DO exp					/* for loop */
+		|	BREAK											/* break */
+		|	LET declist IN expseq END						/* variables + program */
+		|	error											/* catch errors thrown and continue parsing */
 
-expseq  :	exp								
-		|	expseq SEMICOLON exp			
+lvalue	:	ID												
+		|	lvalue DOT ID									/*  method call */
+		|	ID arr_acc										/* array access */
 
-explist	:	exp										
-		|	explist COMMA exp					
+arr_acc	:	LBRACK exp RBRACK 
+		|	LBRACK exp RBRACK arr_acc						/* multidimensional array access */
+				
+explist	:													/* optionality */
+		|	exp												
+		|	explist COMMA exp								
 
-lvalue	:	ID								
-		|	ID arr_access
+expseq	:													/* optionality */
+		|	exp 
+		|	expseq SEMICOLON exp
 
-arr_access	:	LBRACK exp RBRACK
-			|	LBRACK exp RBRACK arr_access
-		
-decs	:	dec
-		|	decs dec
+declist :	dec
+		|	declist dec
 
-dec		:	vardec
-		|	typedec
+dec		:	typedec
+		|	vardec
 
-vardec	:	VAR lvalue ASSIGN exp
-		|	VAR lvalue COLON type ASSIGN exp
-		|	VAR lvalue ASSIGN type
+typedec	:	TYPE ID EQ exp									/* type definition */
+		|	TYPE ID EQ ARRAY OF exp							/* type array of type */
+		|	TYPE ID EQ lvalue OF exp						/* type array */
 
-typedec	:	TYPE lvalue EQ type
-
-type	:	LBRACE RBRACE
-		|	LBRACE typeflds RBRACE
-		|	lvalue OF exp
-		|	ARRAY OF type
-		|	lvalue
-
-typeflds	:	typefld
-			|	typeflds typefld
-
-typefld	:	lvalue COLON lvalue
+vardec	:	VAR ID ASSIGN exp								/* variable definition */
+		|	VAR ID ASSIGN exp OF exp						/* array definition */
 
 %%
 extern yyFlexLexer	lexer;

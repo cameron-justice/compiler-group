@@ -93,7 +93,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 14 "tiger.yy"
+#line 19 "tiger.yy"
 
 	int		ival;	//integer value of INT token
 	string* sval;	//pointer to name of IDENTIFIER or value of STRING	
