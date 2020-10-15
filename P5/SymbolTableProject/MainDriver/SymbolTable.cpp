@@ -122,24 +122,48 @@ namespace symbol
 	template<class Entry>
 	bool SymbolTable<Entry>::contains(string lexeme)
 	{
-		/* put your implementation here */
-		return true;
+		for (Iterator it = tables.begin(); it != tables.end(); it++)
+		{
+			HashTable& current = *it;
+			HashTable::iterator	cur = current.find(lexeme);
+
+			if (cur != current.end())
+			{
+				return true;	
+			}
+		}
+		return false;
 	}
 
 
 	template<class Entry>
 	bool SymbolTable<Entry>::localContains(string lexeme)
 	{
-		/* put your implementation here */
-		return true;
+		Iterator it = tables.begin();
+		HashTable& current = *it;
+
+		if (current.find(lexeme) != current.end())
+		{
+			return true;	
+		}
+		return false;
 	}
 
 	//check if a lexeme is contained in the global level
 	template<class Entry>
 	bool SymbolTable<Entry>::globalContains(string lexeme)
 	{
-		/* put your implementation here */
-		return true;
+		HashTable current = *(tables.end());
+		HashTable::iterator it = current.begin();
+
+		for (; it != current.end(); it++)
+		{
+			if (it->first == lexeme)
+			{
+				return true;	
+			}
+		}
+		return false;
 	}
 
 	//insert a lexeme and binder to the current scope, i.e. the first hashtable in the list
@@ -147,7 +171,17 @@ namespace symbol
 	template<class Entry>
 	void SymbolTable<Entry>::insert(string lexeme, const Entry value)
 	{
-		/* put your implementation here */
+		//Check if lexeme already exists, if so throws exception
+		if (localContains(lexeme))
+			throw runtime_error("Error: " + lexeme + " already exists in current scope.");
+
+		//Else insert the lexeme and binder to current scope
+		else
+		{
+			Iterator it = tables.begin();
+			it->insert({ lexeme, value });
+		}
+	
 	}
 
 } //end of namespace Environment
