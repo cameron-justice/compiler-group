@@ -37,7 +37,6 @@ namespace semantics
 			symbol::SymTabEntry		old = env.getVarEnv()->lookup(name);
 			ss << "function " << name << " is already defined at line " << old.node->getLineno();
 			error(entry.node, ss.str());
-
 		}
 		else
 			env.getVarEnv()->insert(name, entry);
@@ -94,6 +93,7 @@ namespace semantics
 
 	const types::Type* TypeChecking::visit(const Var* v)
 	{
+		cout << "Var" << endl;
 		if (dynamic_cast<const SimpleVar*>(v) != NULL)			return visit((const SimpleVar*)v);
 		//		else if (dynamic_cast<const FieldVar *>(v) != NULL)		return visit((const FieldVar *) v);
 		else if (dynamic_cast<const SubscriptVar*>(v) != NULL) return visit((const SubscriptVar*)v);
@@ -102,6 +102,7 @@ namespace semantics
 
 	const types::Type* TypeChecking::visit(const Ty* t)
 	{
+		cout << "Type" << endl;
 		if (dynamic_cast<const NameTy*>(t) != NULL)			return visit((const NameTy*)t);
 		else if (dynamic_cast<const ArrayTy*>(t) != NULL)		return visit((const ArrayTy*)t);
 		//		else if (dynamic_cast<const RecordTy *>(t) != NULL)		return visit((const RecordTy *)t);
@@ -118,57 +119,49 @@ namespace semantics
 
 	const types::Type* TypeChecking::visit(const SimpleVar* v)
 	{
-		/*if (!(env.getVarEnv()->contains(v->getName())))
+		/* check if the variable is defined by looking up the symbol table*/
+		cout << "SimpleVar" << endl;
+		if (env.getVarEnv()->contains(v->getName()))
 		{
-			error(v, "undefined variable");
-			insertVar(v->getName(), SymTabEntry(env.getVarEnv()->getLevel(),
-				
+			return env.getVarEnv()->lookup(v->getName());
 		}
 		else
 		{
-			const types::Type* t = env.getVarEnv()->lookup(v->getName()).info->actual();
-			return t;
-		}*/
-		return NULL;
+			cout << "yes" + v->getName() << endl;
+			error(v, "undefined variable");
+			return NULL;
+			//const types::Type* t = env.getVarEnv()->lookup(v->getName()).info->actual();
+			//return t;
+			
+		}
 	}
 
 	const types::Type* TypeChecking::visit(const SubscriptVar* v)
 	{
+		cout << "SubVar" << endl;
 		/* check both the variable and index */
-		
-		if (dynamic_cast<const SubscriptVar*>(v) != NULL) {
-			return visit(v->getVar());
-			return visit(v->getIndex());
-		}
-		else {
-			return NULL;
-		}
+		visit(v->getIndex());
+		return visit(v->getVar());
 	}
 
-	//functions checking semantic error of different type of Exp nodes
 	const types::Type* TypeChecking::visit(const OpExp* e)
 	{
 		/* check both operands */
-		if (dynamic_cast<const OpExp*>(e) != NULL) {
-			return visit(e->getLeft());
-			return visit(e->getRight());
-		}
-		else {
-			error(e, "undefined type name");
-			return NULL;
-		}
+		const types::Type* t1 = visit(e->getLeft());
+		const types::Type* t2 = visit(e->getRight());
 
+		if(t1 == t2) {
+			return t1;
+		} else {
+			error(e, "semantic error: inequivalent types");
+		}
 	}
 
 	const types::Type* TypeChecking::visit(const VarExp* e)
 	{
-		if (dynamic_cast<const VarExp*>(e) != NULL) {
-			return visit(e->getVar());
-		}
-		else {
-			error(e, "undefined variable");
-			return NULL;
-		}
+		/* check the variable */
+		return visit(e->getVar());
+		
 	}
 
 	const types::Type* TypeChecking::visit(const NilExp* e)
@@ -179,7 +172,6 @@ namespace semantics
 
 	const types::Type* TypeChecking::visit(const IntExp* e)
 	{
-		//don't need to do anything
 		return NULL;
 	}
 
@@ -197,8 +189,8 @@ namespace semantics
 			step 2: check every argument expression
 		*/
 
-		string funcname = e->getFunc();
-		if (env.getVarEnv()->contains(funcname)){
+		string funcName = e->getFunc();
+		if (env.getVarEnv()->contains(funcName)){
 			const types::Type* t = NULL;
 			const ExpList * args = e->getArgs();
 			while (args != NULL) {
@@ -208,7 +200,7 @@ namespace semantics
 			return t;
 		}
 		else{
-			//Else fname is not defined, report an error
+			//Else funcName is not defined, report an error
 			error(e, "undefined function name");
 			return NULL;
 		}
@@ -229,15 +221,12 @@ namespace semantics
 	//This function checks type compatibility in an assignment statement
 	const types::Type* TypeChecking::visit(const AssignExp* e)
 	{
+		cout << "Assign" << endl;
 		/* check both variable and expression */
-		if (dynamic_cast<const AssignExp*>(e) != NULL) {
-			return visit(e->getVar());
-			return visit(e->getExp());
-		}
-		else {
-			error(e, "undefined type name");
-			return NULL;
-		}
+
+		visit(e->getExp());
+
+		return visit(e->getVar());
 
 	}
 
@@ -285,22 +274,70 @@ namespace semantics
 	//This function detects errors in let expressions
 	const types::Type* TypeChecking::visit(const LetExp* e)
 	{
+		/*
+			step 1: begin a new scope for type and variable/function symbol tables
+			step 2: check every declaraion in the decl list
+			step 3: check the body expression
+			step 4: end the scope for both symbol tables
+		*/
+
+		// Open scopes
+		env.getVarEnv()->beginScope();
+		env.getTypeEnv()->beginScope();
+
+		// Check all declarations
+		const absyn::DecList* decs = e->getDecs();
+		while(decs) {
+			visit(e->getDecs()->getHead());
+			decs = decs->getRest();
+		}
+
+		// Check body expression
+		visit(e->getBody());
+
+		//Close scopes
+		env.getVarEnv()->endScope();
+		env.getTypeEnv()->endScope();
 		return NULL;
 	}
 
 	//This function checks for errors with array declarations
 	const types::Type* TypeChecking::visit(const ArrayExp* e)
 	{
+		/*
+			step 1: check the type of the array by looking up the type symbol table
+			step 2: check the size expression
+			step 3: check the initial expression
+		*/
 		return NULL;
 	}
 
 	const types::Type* TypeChecking::visit(const VarDec* d)
 	{
+		/*
+			step 1: insert the variable to the var/function symbol table
+			step 2: if the type information is provided, check the type
+			step 3: check the initial expression
+		*/
+		insertVar(d->getName(), symbol::SymTabEntry(env.getVarEnv()->getLevel(), NULL, d));
+		
+		if (d->getType())
+			visit(d->getType());
+
+		visit(d->getInit());
+
+
+
 		return NULL;
 	}
 
 	const types::Type* TypeChecking::visit(const TypeDec* d)
 	{
+		/*
+			step 1: insert the name of the new type to the type symbol table
+			step 2: check the type information of the new type
+		*/
+
 		return NULL;
 	}
 

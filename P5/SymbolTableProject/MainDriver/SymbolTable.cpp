@@ -129,6 +129,7 @@ namespace symbol
 
 			if (cur != current.end())
 			{
+				cout << "true for " << lexeme << endl;
 				return true;	
 			}
 		}

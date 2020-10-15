@@ -1,4 +1,4 @@
-Report submited at 2012-09-18 4:30 [Replace the date and time by the real information]
+Report submited at 2020-10-04 4:30
 
 Role
     Assignment Leader: Justin Wade  
@@ -7,15 +7,15 @@ Role
   
 Progress 
     Cameron Justice
-        Work done
+        Programming portion finishign up. Need to resolve reduce/reduce conflicts.
     Hunter McGee
-        Work done
+        Testing is finished.
 
 Work to be done
     Cameron Jsutice
-        His/her future work before next deadline
+        Resolve reduce/reduce conflicts.
     Name of a team member
-        His/her future work before next deadline
+        Finsihed
 
 Meet deadline 
     Cameron Justice
