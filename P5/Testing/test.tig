@@ -1,0 +1,36 @@
+/* PROGRAMMER: Cameron Justice */
+/* PROGRAM: Project 5: Test Case */
+/* DUE: Wednesday, October 28th, 2020 */
+/* INSTRUCTOR: Dr. Zhijiang Dong */
+
+let
+    /* Two variables, same name, same level */
+    var a := 21
+    var a := 20
+    
+    /* Two types, same name, same level */
+    type intarray = array of int
+    type intarray = array of string
+
+    /* Two variables, same name, different level  PART 1 (line 21 for Part 2) */
+    var b : int := 7
+
+    /* Two types, same name, different level PART 1 (line 24 for Part 2) */
+    type strarray = array of string
+in
+    /* Two variables, same name, different level PART 2 (line 15 for Part 1) */
+    var b : int := 8;
+
+    /* Two types, same name, different level PART 2 (Line 18 for Part 1) */
+    type strarray = array of int;
+
+    /* Undefined variable is used */
+    var c := d + 5;
+
+    /* Undefined type is used */
+    var e : apple := b + 5;
+
+    /* Undefined variable used in function parameter list */
+    print(f);
+
+end
