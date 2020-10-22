@@ -99,6 +99,7 @@
     <ClInclude Include="TypeChecking.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Testing\test.tig" />
     <None Include="example.tig" />
     <None Include="tiger.tab.hh" />
   </ItemGroup>

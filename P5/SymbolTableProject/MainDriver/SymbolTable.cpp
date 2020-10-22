@@ -23,12 +23,12 @@ namespace symbol
 		HashTable	current = *(tables.begin());
 		HashTable::iterator	it = current.begin();
 
-		for(int i=0; i<level; i++)
+		for (int i = 0; i < level; i++)
 			indent += "    ";
 		string			info;
 		stringstream	ss(info);
 
-		for(; it != current.end(); ++it)
+		for (; it != current.end(); ++it)
 			ss << indent << it->first << endl;
 		ss << indent << "-------------------------------" << endl;
 		dumpinfo += ss.str();
@@ -40,7 +40,7 @@ namespace symbol
 	SymbolTable<Entry>::~SymbolTable()
 	{
 		//delete all remaining scopes 
-		for(unsigned int i=0; i<tables.size(); i++)
+		for (unsigned int i = 0; i < tables.size(); i++)
 			endScope();
 
 		cout << "*******************Symbol Table************************" << endl;
@@ -55,17 +55,17 @@ namespace symbol
 	template<class Entry>
 	Entry& SymbolTable<Entry>::lookup(string lexeme)
 	{
-		for(Iterator it=tables.begin(); it!=tables.end(); it++)
+		for (Iterator it = tables.begin(); it != tables.end(); it++)
 		{
-			HashTable		&current = *it;
+			HashTable& current = *it;
 			HashTable::iterator	vit = current.find(lexeme);
 
-			if ( vit != current.end() )
+			if (vit != current.end())
 			{
 				return current[lexeme];	//found the lexeme
 			}
 		}
-		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!") ;
+		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!");
 	}
 
 	//Retrieve the value associated with the given lexeme in the global level only
@@ -76,27 +76,27 @@ namespace symbol
 		Iterator	prev;
 		Iterator	cur = tables.begin();
 
-		while( cur != tables.end() )
+		while (cur != tables.end())
 		{
 			prev = cur;
-			cur ++;
+			cur++;
 		}
 
-		HashTable		&current = *prev;
+		HashTable& current = *prev;
 
-		if ( current.find(lexeme) != current.end() )
+		if (current.find(lexeme) != current.end())
 		{
 			return current[lexeme];	//found the lexeme
 		}
-		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!") ;
+		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!");
 	}
 
 	//create a new scope as the current scope
 	template<class Entry>
 	void SymbolTable<Entry>::beginScope()
 	{
-		level ++;
-		tables.push_front( HashTable() );
+		level++;
+		tables.push_front(HashTable());
 	}
 
 	//destroy the current scope, and its parent becomes the current scope
@@ -106,17 +106,17 @@ namespace symbol
 		dump();
 
 		//remove current scope level from the symbol table
-		if ( level >= 0 )
+		if (level >= 0)
 		{
 			tables.pop_front();
-			level --;
+			level--;
 		}
 	};
 
 	/****************************
 	Provide implementation of all other member functions here
 	****************************/
-	
+
 	//check if a lexeme is contained in the symbol table list
 	//search from the head to tail
 	template<class Entry>
@@ -129,8 +129,7 @@ namespace symbol
 
 			if (cur != current.end())
 			{
-				cout << "true for " << lexeme << endl;
-				return true;	
+				return true;
 			}
 		}
 		return false;
@@ -145,7 +144,7 @@ namespace symbol
 
 		if (current.find(lexeme) != current.end())
 		{
-			return true;	
+			return true;
 		}
 		return false;
 	}
@@ -161,7 +160,7 @@ namespace symbol
 		{
 			if (it->first == lexeme)
 			{
-				return true;	
+				return true;
 			}
 		}
 		return false;
@@ -182,7 +181,7 @@ namespace symbol
 			Iterator it = tables.begin();
 			it->insert({ lexeme, value });
 		}
-	
+
 	}
 
 } //end of namespace Environment

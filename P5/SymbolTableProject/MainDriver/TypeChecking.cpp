@@ -93,7 +93,6 @@ namespace semantics
 
 	const types::Type* TypeChecking::visit(const Var* v)
 	{
-		cout << "Var" << endl;
 		if (dynamic_cast<const SimpleVar*>(v) != NULL)			return visit((const SimpleVar*)v);
 		//		else if (dynamic_cast<const FieldVar *>(v) != NULL)		return visit((const FieldVar *) v);
 		else if (dynamic_cast<const SubscriptVar*>(v) != NULL) return visit((const SubscriptVar*)v);
@@ -102,7 +101,6 @@ namespace semantics
 
 	const types::Type* TypeChecking::visit(const Ty* t)
 	{
-		cout << "Type" << endl;
 		if (dynamic_cast<const NameTy*>(t) != NULL)			return visit((const NameTy*)t);
 		else if (dynamic_cast<const ArrayTy*>(t) != NULL)		return visit((const ArrayTy*)t);
 		//		else if (dynamic_cast<const RecordTy *>(t) != NULL)		return visit((const RecordTy *)t);
@@ -120,25 +118,22 @@ namespace semantics
 	const types::Type* TypeChecking::visit(const SimpleVar* v)
 	{
 		/* check if the variable is defined by looking up the symbol table*/
-		cout << "SimpleVar" << endl;
 		if (env.getVarEnv()->contains(v->getName()))
 		{
-			return env.getVarEnv()->lookup(v->getName());
+			return env.getVarEnv()->lookup(v->getName()).info;
 		}
 		else
 		{
-			cout << "yes" + v->getName() << endl;
 			error(v, "undefined variable");
 			return NULL;
 			//const types::Type* t = env.getVarEnv()->lookup(v->getName()).info->actual();
 			//return t;
-			
+
 		}
 	}
 
 	const types::Type* TypeChecking::visit(const SubscriptVar* v)
 	{
-		cout << "SubVar" << endl;
 		/* check both the variable and index */
 		visit(v->getIndex());
 		return visit(v->getVar());
@@ -150,10 +145,12 @@ namespace semantics
 		const types::Type* t1 = visit(e->getLeft());
 		const types::Type* t2 = visit(e->getRight());
 
-		if(t1 == t2) {
+		if (t1 == t2) {
 			return t1;
-		} else {
+		}
+		else {
 			error(e, "semantic error: inequivalent types");
+			return NULL;
 		}
 	}
 
@@ -161,7 +158,7 @@ namespace semantics
 	{
 		/* check the variable */
 		return visit(e->getVar());
-		
+
 	}
 
 	const types::Type* TypeChecking::visit(const NilExp* e)
@@ -172,6 +169,7 @@ namespace semantics
 
 	const types::Type* TypeChecking::visit(const IntExp* e)
 	{
+		//return visit(e->getValue());
 		return NULL;
 	}
 
@@ -190,16 +188,16 @@ namespace semantics
 		*/
 
 		string funcName = e->getFunc();
-		if (env.getVarEnv()->contains(funcName)){
+		if (env.getVarEnv()->contains(funcName)) {
 			const types::Type* t = NULL;
-			const ExpList * args = e->getArgs();
+			const ExpList* args = e->getArgs();
 			while (args != NULL) {
 				t = visit(args->getHead());
-				 args = args->getRest();
+				args = args->getRest();
 			}
 			return t;
 		}
-		else{
+		else {
 			//Else funcName is not defined, report an error
 			error(e, "undefined function name");
 			return NULL;
@@ -211,7 +209,7 @@ namespace semantics
 		/*	check every expression in the sequence */
 		const types::Type* t = NULL;
 		const absyn::ExpList* list = e->getList();
-		while (list != NULL){
+		while (list != NULL) {
 			t = visit(list->getHead());
 			list = list->getRest();
 		}
@@ -221,47 +219,58 @@ namespace semantics
 	//This function checks type compatibility in an assignment statement
 	const types::Type* TypeChecking::visit(const AssignExp* e)
 	{
-		cout << "Assign" << endl;
 		/* check both variable and expression */
-
-		visit(e->getExp());
-
-		return visit(e->getVar());
+		visit(e->getVar());
+		return visit(e->getExp());
 
 	}
 
 	//This function tests for errors in an if statement
-	const types::Type* TypeChecking::visit(const IfExp* e)
-	{
+	const types::Type* TypeChecking::visit(const IfExp* e) {
 		/* check test condition, then-clause, and else-clause (if exists) */
-		/*
-		const types::Type* t = visit(e->getTest());
-		if (e->getTest() == NULL) {
 
+		const types::Type* t = visit(e->getTest());
+		if (e->getTest() != NULL) {
+			return t;
 		}
-		
+
 		const types::Type* t1 = visit(e->getThenClause());
-		if (e->getThenClause() == NULL)
-		{
-			
+		if (e->getThenClause() != NULL) {
+			return t1;
 		}
 		const types::Type* t2 = visit(e->getElseClause());
-		if(e->getElseClause() == NULL){
-
+		if (e->getElseClause() != NULL) {
+			return t2;
 		}
-		*/
+
 		return NULL;
 	}
 
 	//This function checks for errors in while statements
 	const types::Type* TypeChecking::visit(const WhileExp* e)
 	{
+		const types::Type* t = visit(e->getTest());
+		if (e->getTest() != NULL) {
+			return t;
+		}
+
 		return NULL;
 	}
 
 	//This function tests for errors in for loops
 	const types::Type* TypeChecking::visit(const ForExp* e)
 	{
+		// Open scope
+		env.getVarEnv()->beginScope();
+
+		// Check
+		const types::Type* t1 = visit(e->getVar());
+		const types::Type* t2 = visit(e->getHi());
+		const types::Type* t3 = visit(e->getBody());
+
+		//Close scopes
+		env.getVarEnv()->endScope();
+
 		return NULL;
 	}
 
@@ -287,8 +296,9 @@ namespace semantics
 
 		// Check all declarations
 		const absyn::DecList* decs = e->getDecs();
-		while(decs) {
-			visit(e->getDecs()->getHead());
+		int i = 0;
+		while (decs) {
+			visit(decs->getHead());
 			decs = decs->getRest();
 		}
 
@@ -298,6 +308,7 @@ namespace semantics
 		//Close scopes
 		env.getVarEnv()->endScope();
 		env.getTypeEnv()->endScope();
+
 		return NULL;
 	}
 
@@ -309,26 +320,34 @@ namespace semantics
 			step 2: check the size expression
 			step 3: check the initial expression
 		*/
+
+		if (env.getTypeEnv()->contains(e->getType())) {
+
+			visit(e->getSize());
+			return visit(e->getInit());
+		}
+		else {
+			error(e, "undefined array type");
+			return NULL;
+		}
+
 		return NULL;
+
 	}
 
-	const types::Type* TypeChecking::visit(const VarDec* d)
-	{
+	const types::Type* TypeChecking::visit(const VarDec* d) {
 		/*
 			step 1: insert the variable to the var/function symbol table
 			step 2: if the type information is provided, check the type
 			step 3: check the initial expression
 		*/
+
 		insertVar(d->getName(), symbol::SymTabEntry(env.getVarEnv()->getLevel(), NULL, d));
-		
+
 		if (d->getType())
 			visit(d->getType());
 
-		visit(d->getInit());
-
-
-
-		return NULL;
+		return visit(d->getInit());
 	}
 
 	const types::Type* TypeChecking::visit(const TypeDec* d)
@@ -338,7 +357,9 @@ namespace semantics
 			step 2: check the type information of the new type
 		*/
 
-		return NULL;
+
+		insertType(d->getName(), symbol::SymTabEntry(env.getTypeEnv()->getLevel(), NULL, d));
+		return visit(d->getTy());
 	}
 
 
@@ -363,7 +384,7 @@ namespace semantics
 		/*
 			step 1: Check the name of the array type by looking up the type symbol table
 		*/
-		if (env.getTypeEnv()->contains(t->getName())){
+		if (env.getTypeEnv()->contains(t->getName())) {
 
 			return new types::ARRAY(env.getTypeEnv()->lookup(t->getName()).info);
 		}
