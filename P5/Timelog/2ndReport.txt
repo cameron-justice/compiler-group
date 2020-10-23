@@ -1,0 +1,29 @@
+Report submited at 2020-10-23 2:30
+
+Role
+    Assignment Leader: Hunter McGee (should be one person)
+    Programmer       : Justin Wade (One or two person)
+    Tester           : Cameron Justice  (One or two person)
+
+Progress
+    Hunter McGee
+        The assignment leader completed and submitted the 2nd timelog report.
+    Justin Wade
+        The developer finished the alpha version.
+    Justin Wade
+        The developer finished Test.tig.
+
+
+Work to be done
+    Hunter McGee
+        Ensure that changes are made by developer to alpha version before final submission.
+    Justin Wade
+        Make necessary changes to alpha version before final submission (if needed).
+    Cameron Justice
+        Complete test report, submit test report and revised Test.tig. 
+
+Meet deadline
+    Justin Wade
+        The programmer did a great job of submitting the required work before this deadline, and will be able to submit the necessary work before the next deadline.
+    Cameron Justice
+        The tester did a great job of submitting the required work before this deadline, and will be able to submit the necessary work before the next deadline.
