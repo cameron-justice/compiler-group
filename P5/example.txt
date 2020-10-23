@@ -1,0 +1,81 @@
+Parsing successful!
+
+
+
+example.tig:7.14: undefined type name
+    type t = a
+             ^
+
+example.tig:10.23: undefined array type name
+    type wrongarray = array of hello
+                      ^
+
+example.tig:13.13: undefined type name
+    var e : rec := nil
+            ^
+
+example.tig:21.5: undefined variable
+    i := i+1;
+    ^
+
+example.tig:21.10: undefined variable
+    i := i+1;
+         ^
+
+example.tig:25.5: undefined array type
+    undefinedarray[b] of 5;
+    ^
+
+example.tig:27.2: undefined function name
+        undefinedfunctioncall(a, b);
+        ^
+
+example.tig:28.2: undefined variable
+        undefinedarray[10] := 10
+        ^
+
+The program has semantic errors!
+*******************Symbol Table************************
+    -------------------------------
+
+*******************Symbol Table************************
+*******************Symbol Table************************
+        -------------------------------
+            i
+            -------------------------------
+        ad
+        a
+        b
+        c
+        aa
+        d
+        ab
+        ac
+        e
+        -------------------------------
+    iprint
+    substring
+    size
+    ord
+    print
+    flush
+    getchar
+    chr
+    concat
+    not
+    exit
+    -------------------------------
+
+*******************Symbol Table************************
+*******************Symbol Table************************
+        -------------------------------
+        t
+        intarray
+        wrongarray
+        -------------------------------
+    int
+    string
+    -------------------------------
+
+*******************Symbol Table************************
+Press any key to continue . . .

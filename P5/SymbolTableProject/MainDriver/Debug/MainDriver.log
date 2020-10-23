@@ -1,0 +1,11 @@
+﻿  Env.cpp
+  main.cpp
+  Print.cpp
+  tiger.tab.cc
+C:\Users\ohjus\OneDrive\Documents\School\CSCI\CSCI 4160 Compiler\compiler-group\P5\SymbolTableProject\MainDriver\tiger.tab.cc(875,5): warning C4065: switch statement contains 'default' but no 'case' labels
+C:\Users\ohjus\OneDrive\Documents\School\CSCI\CSCI 4160 Compiler\compiler-group\P5\SymbolTableProject\MainDriver\tiger.tab.cc(1247,5): warning C4065: switch statement contains 'default' but no 'case' labels
+  TypeChecking.cpp
+  Generating Code...
+  lex.yy.cc
+C:\Users\ohjus\OneDrive\Documents\School\CSCI\CSCI 4160 Compiler\compiler-group\P5\SymbolTableProject\MainDriver\lex.yy.cc(691,10): warning C4102: 'find_rule': unreferenced label
+  MainDriver.vcxproj -> C:\Users\ohjus\OneDrive\Documents\School\CSCI\CSCI 4160 Compiler\compiler-group\P5\SymbolTableProject\Debug\MainDriver.exe
