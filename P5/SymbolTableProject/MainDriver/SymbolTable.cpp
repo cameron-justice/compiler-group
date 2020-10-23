@@ -1,3 +1,9 @@
+/* PROGRAMMER: Justin Wade */
+/* PROGRAM: Project 5: SymbolTable.cpp */
+/* DUE: Wednesday, October 28th, 2020 */
+/* INSTRUCTOR: Dr. Zhijiang Dong */
+
+
 #include <iostream>
 #include <sstream>
 

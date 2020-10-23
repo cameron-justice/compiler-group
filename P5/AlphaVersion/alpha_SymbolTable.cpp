@@ -1,3 +1,9 @@
+/* PROGRAMMER: Justin Wade */
+/* PROGRAM: Project 5: SymbolTable.cpp */
+/* DUE: Wednesday, October 28th, 2020 */
+/* INSTRUCTOR: Dr. Zhijiang Dong */
+
+
 #include <iostream>
 #include <sstream>
 
@@ -23,12 +29,12 @@ namespace symbol
 		HashTable	current = *(tables.begin());
 		HashTable::iterator	it = current.begin();
 
-		for(int i=0; i<level; i++)
+		for (int i = 0; i < level; i++)
 			indent += "    ";
 		string			info;
 		stringstream	ss(info);
 
-		for(; it != current.end(); ++it)
+		for (; it != current.end(); ++it)
 			ss << indent << it->first << endl;
 		ss << indent << "-------------------------------" << endl;
 		dumpinfo += ss.str();
@@ -40,7 +46,7 @@ namespace symbol
 	SymbolTable<Entry>::~SymbolTable()
 	{
 		//delete all remaining scopes 
-		for(unsigned int i=0; i<tables.size(); i++)
+		for (unsigned int i = 0; i < tables.size(); i++)
 			endScope();
 
 		cout << "*******************Symbol Table************************" << endl;
@@ -55,17 +61,17 @@ namespace symbol
 	template<class Entry>
 	Entry& SymbolTable<Entry>::lookup(string lexeme)
 	{
-		for(Iterator it=tables.begin(); it!=tables.end(); it++)
+		for (Iterator it = tables.begin(); it != tables.end(); it++)
 		{
-			HashTable		&current = *it;
+			HashTable& current = *it;
 			HashTable::iterator	vit = current.find(lexeme);
 
-			if ( vit != current.end() )
+			if (vit != current.end())
 			{
 				return current[lexeme];	//found the lexeme
 			}
 		}
-		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!") ;
+		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!");
 	}
 
 	//Retrieve the value associated with the given lexeme in the global level only
@@ -76,27 +82,27 @@ namespace symbol
 		Iterator	prev;
 		Iterator	cur = tables.begin();
 
-		while( cur != tables.end() )
+		while (cur != tables.end())
 		{
 			prev = cur;
-			cur ++;
+			cur++;
 		}
 
-		HashTable		&current = *prev;
+		HashTable& current = *prev;
 
-		if ( current.find(lexeme) != current.end() )
+		if (current.find(lexeme) != current.end())
 		{
 			return current[lexeme];	//found the lexeme
 		}
-		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!") ;
+		throw runtime_error("The given Lexeme " + lexeme + " doesn't exist!");
 	}
 
 	//create a new scope as the current scope
 	template<class Entry>
 	void SymbolTable<Entry>::beginScope()
 	{
-		level ++;
-		tables.push_front( HashTable() );
+		level++;
+		tables.push_front(HashTable());
 	}
 
 	//destroy the current scope, and its parent becomes the current scope
@@ -106,40 +112,64 @@ namespace symbol
 		dump();
 
 		//remove current scope level from the symbol table
-		if ( level >= 0 )
+		if (level >= 0)
 		{
 			tables.pop_front();
-			level --;
+			level--;
 		}
 	};
 
 	/****************************
 	Provide implementation of all other member functions here
 	****************************/
-	
+
 	//check if a lexeme is contained in the symbol table list
 	//search from the head to tail
 	template<class Entry>
 	bool SymbolTable<Entry>::contains(string lexeme)
 	{
-		/* put your implementation here */
-		return true;
+		for (Iterator it = tables.begin(); it != tables.end(); it++)
+		{
+			HashTable& current = *it;
+			HashTable::iterator	cur = current.find(lexeme);
+
+			if (cur != current.end())
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 
 	template<class Entry>
 	bool SymbolTable<Entry>::localContains(string lexeme)
 	{
-		/* put your implementation here */
-		return true;
+		Iterator it = tables.begin();
+		HashTable& current = *it;
+
+		if (current.find(lexeme) != current.end())
+		{
+			return true;
+		}
+		return false;
 	}
 
 	//check if a lexeme is contained in the global level
 	template<class Entry>
 	bool SymbolTable<Entry>::globalContains(string lexeme)
 	{
-		/* put your implementation here */
-		return true;
+		HashTable current = *(tables.end());
+		HashTable::iterator it = current.begin();
+
+		for (; it != current.end(); it++)
+		{
+			if (it->first == lexeme)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	//insert a lexeme and binder to the current scope, i.e. the first hashtable in the list
@@ -147,7 +177,17 @@ namespace symbol
 	template<class Entry>
 	void SymbolTable<Entry>::insert(string lexeme, const Entry value)
 	{
-		/* put your implementation here */
+		//Check if lexeme already exists, if so throws exception
+		if (localContains(lexeme))
+			throw runtime_error("Error: " + lexeme + " already exists in current scope.");
+
+		//Else insert the lexeme and binder to current scope
+		else
+		{
+			Iterator it = tables.begin();
+			it->insert({ lexeme, value });
+		}
+
 	}
 
 } //end of namespace Environment
