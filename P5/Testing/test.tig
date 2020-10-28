@@ -10,27 +10,31 @@ let
     
     /* Two types, same name, same level */
     type intarray = array of int
-    type intarray = array of string
+    type intarray = array of string /* ERROR SHOULD OCCUR */
 
-    /* Two variables, same name, different level  PART 1 (line 21 for Part 2) */
+    /* Two variables, same name, different level  PART 1 (line 29 for Part 2) */
     var b : int := 7
 
-    /* Two types, same name, different level PART 1 (line 24 for Part 2) */
+    /* Two types, same name, different level PART 1 (line 31 for Part 2) */
     type strarray = array of string
-in
-    /* Two variables, same name, different level PART 2 (line 15 for Part 1) */
-    var b : int := 8;
-
-    /* Two types, same name, different level PART 2 (Line 18 for Part 1) */
-    type strarray = array of int;
-
-    /* Undefined variable is used */
-    var c := d + 5;
 
     /* Undefined type is used */
-    var e : apple := b + 5;
+    var e : apple := b + 5 /* ERROR SHOULD OCCUR */
+
+    /* Undefined variable is used */
+    var c := d + 5 /* ERROR SHOULD OCCUR */
+in
+    a := 14;
 
     /* Undefined variable used in function parameter list */
-    print(f);
+    print(f); /* ERROR SHOULD OCCUR */
 
+    let 
+        /* Two variables, same name, different level PART 2 (line 10 for Part 1) */
+        var b : int := 8 
+        
+        /* Two types, same name, different level PART 2 (Line 13 for Part 1) */
+        type strarray = array of int
+    in 
+    end
 end
