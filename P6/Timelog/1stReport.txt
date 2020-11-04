@@ -1,0 +1,28 @@
+Report submited at 2020-10-4 4:45 
+
+Role 
+    Assignment Leader: Cameron Justice  
+    Programmer       : Hunter Mcgee 
+    Tester           : Justin Wade
+
+Progress 
+    Cameron Justice
+        Completed first timelog
+    Hunter Mcgee
+        Made progress on program
+    Justin Wade
+        50% complete on test case
+
+Work to be done 
+    Cameron Justice
+        Check on progress on both parts, make sure alpha version is submitted
+    Hunter Mcgee
+        Finish alpha version
+    Justin Wade
+        Finish test case
+
+Meet deadline 
+    Hunter Mcgee
+        Yes, the developer will meet the deadline
+    Justin Wade
+        Yes, the tester will meet the deadline
