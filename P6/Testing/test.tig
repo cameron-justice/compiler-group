@@ -1,0 +1,76 @@
+/* PROGRAMMER: Justin Wade */
+/* PROGRAM: Project 6: Test Case */
+/* DUE: Wednesday, November 13, 2020 */
+/* INSTRUCTOR: Dr. Zhijiang Dong */
+
+let 
+
+    var lvalue := 1
+    var lvalue1 : array of int
+   
+    var x := function fname1(){
+    }
+
+    var a := 1
+    var b := 2
+    var c := 3
+    function fname2(a, b){
+        a + b
+    }
+
+    var array_int := 1
+    var array_int1 : array of int
+    
+    
+in
+
+/* Type checking on SubscriptVar like: lvalue[exp]  */
+lvalue[1]                                                                       /* test case 1 */
+lvalue1[1.0]                                                                    /* test case 2 */
+
+/* Type checking on OpExp like: exp1 operator exp2  */
+1.0 + 2                                                                         /* test case 3 */
+1 + 2.0                                                                         /* test case 4 */
+
+1 = 2                                                                           /* test case 5 */
+nil = 2                                                                         /* test case 6 */
+nil = nil                                                                       /* test case 7 */
+
+1.0 < 2                                                                         /* test case 8 */
+1 > "apple"                                                                     /* test case 9 */
+
+/* Type checking on CallExp like: fname(exp1, exp2, …, expn)  */
+fname()                                                                         /* test case 10 */
+fname1()                                                                        /* test case 11 */
+fname2(1, 2, 3)                                                                 /* test case 12 */
+fname2(1)                                                                       /* test case 13 */
+fname2(1, 2.0)                                                                  /* test case 14 */
+
+/* Type checking on AssignExp like: lvalue := exp  */
+lvalue := "apple"                                                               /* test case 15 */
+
+/* Type checking on IfExp like: if exp1 then exp2 else exp3  */
+if "apple" then a + b                                                           /* test case 16 */
+if a = 1 then b                                                                 /* test case 17 */
+if a = 1 then c = a + b else c = "apple"                                        /* test case 18 */
+
+/* Type checking on WhileExp  */
+while a = 1 do c = a + b                                                        /* test case 19 */
+
+/* Type checking on ForExp like: for varname := exp1 to exp2 do exp3  */
+for var name := "apple" to 5 do c = a + b                                       /* test case 20 */
+for var name := 1 to "banana" do c = a + b                                      /* test case 21 */
+for var name := 1 to 5 do c = a + b                                             /* test case 22 */
+
+/* Type checking on ArrayExp like: array_typename [exp1] of exp2  */
+array_typename[1] of 5                                                          /* test case 23 */
+array_int[1] of 5                                                               /* test case 24 */
+array_int1["apple"] of 5                                                        /* test case 25 */
+array_int1[1] of 5.0                                                            /* test case 26 */
+
+/* Type checking on VarDec like: var vname : TypeName := exp   */
+var vname : int := 1.0                                                          /* test case 27 */
+var vname := nil                                                                /* test case 28 */
+
+end
+)
