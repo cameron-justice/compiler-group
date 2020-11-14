@@ -4,7 +4,7 @@ LEADER: Cameron Justice
 TESTER: Justin Wade
 INSTRUCTOR: DR. DONG
 PROGRAM: PROJECT 6
-DUE DATE: 11/9/2020
+DUE DATE: 11/13/2020
 */
 
 #include "TypeChecking.h"
@@ -717,42 +717,3 @@ namespace semantics
 		return new types::ARRAY(env.getTypeEnv()->lookup(t->getName()).info);
 	}
 } // end of namespace semantics
-
-
-
-  /*
-Bonus points:
-1. Break expression
-	algorithm:
-	1. create a symbol table say lv (lv is actually a member data of class TypeChecking;
-	2. everytime entering a loop:
-			create a new scope for lv,
-			insert breakSign into lv, its data type is INT
-	3. everytime exiting a loop;
-			destroy the scope for lv
-	4. everytime entering a function declaration
-			create a new scope for lv,
-			insert breakSign into lv, its data type is VOID
-	5. everytime exiting a function;
-			destroy the scope for lv
-	6. in visit(BreakExp)
-			lookup lv symbol table to find the definition of breakSign
-			and get its data type t
-
-			if t is VOID, report an error
-
-2. No modification to loop variable
-	algorithm:
-	1. Everytime entering a for loop
-			create a new scope for lv
-			insert the loop variable into lv
-	2. Every time leaving a for loop
-			destroy the scope for lv
-	3. In visit(AssignExp)
-			if Var in the assignment expression is a simple var
-				retrieve information (say v1) of var from the var/function symbol table
-				retrieve information (say v2) of var from the lv symbol table
-				if v1 and v2 points to the same node in the AbstractSyntaxTree,
-					report an error
-
-*/
